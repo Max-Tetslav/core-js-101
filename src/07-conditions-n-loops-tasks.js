@@ -231,8 +231,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -248,8 +248,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return Number(num.toString().split('').reverse().join(''));
 }
 
 
@@ -273,8 +273,55 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const string = String(ccn);
+  const stringNoLast = string.slice(0, String(ccn).length - 1);
+  let arr = stringNoLast.split('').map((item) => Number(item));
+
+  if (stringNoLast.length % 2 === 0) {
+    arr = arr.map((item, index) => {
+      let stuff = item;
+      if ((index + 1) % 2) {
+        stuff *= 2;
+        if (stuff > 9) {
+          stuff -= 9;
+        }
+      }
+      return stuff;
+    });
+  } else {
+    arr = arr.map((item, index) => {
+      let stuff = item;
+      if ((index + 1) % 2 === 0) {
+        stuff *= 2;
+        if (stuff > 9) {
+          stuff -= 9;
+        }
+      }
+      return stuff;
+    });
+  }
+
+  const result = arr.reduce((sum = 0, item) => {
+    let acc = sum;
+    acc += item;
+    return acc;
+  });
+
+  return 10 - (result % 10) === Number(string[string.length - 1]);
+  // let ch = 0;
+  // const num = String(ccn).replace(/\D/g, '');
+  // console.log(num);
+  // const isOdd = num.length % 2 !== 0;
+  // console.log(isOdd);
+
+  // for (let i = 0; i < num.length; i++) {
+  //     let n = parseInt(num[i], 10);
+
+  //     ch += (isOdd | 0) === (i % 2) && 9 < (n *= 2) ? (n - 9) : n;
+  // }
+
+  // return 0 === (ch % 10);
 }
 
 /**
@@ -291,8 +338,17 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const arrSum = num.toString().split('').map(Number).reduce((sum, item) => {
+    let result = sum;
+    result += item;
+    return result;
+  });
+  return arrSum.toString().split('').map(Number).reduce((sum, item) => {
+    let result = sum;
+    result += item;
+    return result;
+  });
 }
 
 
@@ -342,8 +398,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
