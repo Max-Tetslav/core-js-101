@@ -103,8 +103,16 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  const max = Math.max(a, b, c);
+  switch (max) {
+    case a:
+      return max < b + c;
+    case b:
+      return max < a + c;
+    default:
+      return max < a + b;
+  }
 }
 
 
@@ -276,52 +284,29 @@ function reverseInteger(num) {
 function isCreditCardNumber(ccn) {
   const string = String(ccn);
   const stringNoLast = string.slice(0, String(ccn).length - 1);
-  let arr = stringNoLast.split('').map((item) => Number(item));
+  let arr = stringNoLast.split('').map((item) => Number(item)).reverse();
 
-  if (stringNoLast.length % 2 === 0) {
-    arr = arr.map((item, index) => {
-      let stuff = item;
-      if ((index + 1) % 2) {
-        stuff *= 2;
-        if (stuff > 9) {
-          stuff -= 9;
-        }
+  arr = arr.map((item, index) => {
+    let stuff = item;
+    if ((index + 1) % 2 > 0) {
+      stuff *= 2;
+      if (stuff > 9) {
+        stuff -= 9;
       }
-      return stuff;
-    });
-  } else {
-    arr = arr.map((item, index) => {
-      let stuff = item;
-      if ((index + 1) % 2 === 0) {
-        stuff *= 2;
-        if (stuff > 9) {
-          stuff -= 9;
-        }
-      }
-      return stuff;
-    });
-  }
+    }
+    return stuff;
+  });
 
-  const result = arr.reduce((sum = 0, item) => {
+  const result = arr.reduce((sum, item) => {
     let acc = sum;
     acc += item;
     return acc;
   });
 
+  if (10 - (result % 10) === 10 && Number(string[string.length - 1]) === 0) {
+    return true;
+  }
   return 10 - (result % 10) === Number(string[string.length - 1]);
-  // let ch = 0;
-  // const num = String(ccn).replace(/\D/g, '');
-  // console.log(num);
-  // const isOdd = num.length % 2 !== 0;
-  // console.log(isOdd);
-
-  // for (let i = 0; i < num.length; i++) {
-  //     let n = parseInt(num[i], 10);
-
-  //     ch += (isOdd | 0) === (i % 2) && 9 < (n *= 2) ? (n - 9) : n;
-  // }
-
-  // return 0 === (ch % 10);
 }
 
 /**
